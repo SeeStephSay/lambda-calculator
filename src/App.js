@@ -15,22 +15,23 @@ function App() {
 	// Once the state hooks are in place write some functions to hold data in state and update that data depending on what it needs to be doing
 	// Your functions should accept a parameter of the the item data being displayed to the DOM (ie - should receive 5 if the user clicks on
 	// the "5" button, or the operator if they click one of those buttons) and then call your setter function to update state.
-	const [ display, setDisplay ] = useState('');
+	const [ displayValue, setDisplayValue ] = useState('0');
 	const [ operatorValue, setOperatorValue ] = useState('');
+	// Our setState value can take one of two arguments. The value we want to be put inside the variable, or a callback function that will give us the most up-to-date value.
 
 	const addNumber = (number) => {
 		if (operatorValue === '=') {
-			setDisplay(number);
+			setDisplayValue(number);
 		} else {
-			setDisplay((display) => display + number);
+			setDisplayValue((displayValue) => displayValue + number);
 		}
 	};
 
 	const addOperator = (operator) => {
 		if (operator === '=') {
-			setDisplay((display) => eval(display));
+			setDisplayValue((display) => eval(display));
 		} else {
-			setDisplay((display) => `${display} ${operator} `);
+			setDisplayValue((display) => `${display} ${operator} `);
 		}
 		setOperatorValue(operator);
 	};
@@ -41,11 +42,12 @@ function App() {
 			<div className='App'>
 				{/*The div has a key called className, which has a value of "App".*/}
 				{/* STEP 4 - Render your components here and be sure to properly import/export all files */}
-				<Display /*value={display}*/ number={0} />
+				<Display /*value={display}*/ number={displayValue} />
 				{/*The above code is equal to our function with a key and value as a parameter: Display({number: 0})
 				All of the props that we write are a key on the left and a value on the right side, and they all end up inside the props object. But we get to write them like attributes, just like we would in our normal HTML.*/}
 				<Specials />
 				<Numbers addNumber={addNumber} />
+				{/*//We can't add onClick directly to a Component, because we are actually interacting on the site with our HTML elements.*/}
 				<Operators addOperator={addOperator} />
 			</div>
 		</div>
